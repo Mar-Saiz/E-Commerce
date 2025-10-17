@@ -18,6 +18,6 @@
 		<PackageReference Include="MimeKit" Version="4.13.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Services\" />
+	  <ProjectReference Include="..\E-Commerce.Data\E-Commerce.Data.csproj" />
 	</ItemGroup>
 </Project>
