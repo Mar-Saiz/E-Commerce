@@ -15,6 +15,11 @@ namespace E_Commerce.Data.Services
             _mapper = mapper;
             _listaDeseosRepository = listaDeseosRepository;
         }
-    
+
+        public async Task<List<ListaDeseosDto>> GetWishListByUserId(string userId)
+        {
+            var entities = await _listaDeseosRepository.GetWishListByUserId(userId);
+            return _mapper.Map<List<ListaDeseosDto>>(entities);
+        }
     }
 }
