@@ -7,5 +7,6 @@ namespace E_Commerce.Data.Interfaces.Services
     public interface ICuponServices : IBaseServices<Cupon, CuponDto>
     {
         Task<OperationResult<CuponDto>> ValidarCuponAsync(CuponDto cuponDto);
+        Task<OperationResult<CuponDto>> GetCuponByCodeAsync(string code);
     }
 }
