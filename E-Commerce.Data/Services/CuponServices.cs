@@ -9,12 +9,13 @@ namespace E_Commerce.Data.Services
 {
     public class CuponServices : BaseServices<Cupon, CuponDto>, ICuponServices
     {
-        public readonly ICuponRepository _categoriaRepository;
+        public readonly ICuponRepository _CuponRepository;
         public readonly IMapper _mapper;
+
         public CuponServices(ICuponRepository cuponRepository, IMapper mapper) : base(mapper, cuponRepository)
         {
             _mapper = mapper;
-            _categoriaRepository = cuponRepository;
+            _CuponRepository = cuponRepository;
         }
 
         // Maria Abreu 2024-0003
@@ -39,22 +40,35 @@ namespace E_Commerce.Data.Services
             return result;
         }
 
-
         // Buscar cupon
 
         public async Task<OperationResult<CuponDto>> GetCuponByCodeAsync(string code)
         {
             OperationResult<CuponDto> result = new();
-            var cupon = await _categoriaRepository.(code);
-            if (cupon == null)
+
+            var cupon = await _CuponRepository.GetCuponByCodeAsync(code);
+
+            if(cupon == null)
             {
                 result.Success = false;
                 result.Message = "Cupón no encontrado.";
                 return result;
             }
-            result.Result = _mapper.Map<CuponDto>(cupon);
+
+            var cuponDto = _mapper.Map<CuponDto>(cupon);  
+
+            if(cuponDto == null)
+            {
+                result.Success = false;
+                result.Message = "Error al obtener el cupón.";
+                return result;
+            }
+
+            result.Result = cuponDto;
             result.Success = true;
+
             return result;
+
         }
 
 
