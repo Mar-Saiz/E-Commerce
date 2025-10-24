@@ -15,6 +15,11 @@ namespace E_Commerce.Data.Services
             _mapper = mapper;
            _pedidoRepository = pedidoRepository;
         }
-    
+
+        public async Task<List<PedidoDto>> GetOrderListByUserId(string userId)
+        {
+            var entities = await _pedidoRepository.GetOrderListByUserId(userId);
+            return _mapper.Map<List<PedidoDto>>(entities);
+        }
     }
 }

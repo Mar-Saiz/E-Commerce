@@ -16,15 +16,13 @@ namespace E_Commerce.Data.Repositories
             }
         }
 
-        public List<Pedido> GetOrderListByUserId(string userId)
+        public async Task<List<Pedido>> GetOrderListByUserId(string userId)
         {
-            var orderList = _context.Pedidos
+            return await _context.Pedidos
                 .Include(dp => dp.Detalles)
                 .Include(de => de.DireccionEnvio)
                 .Where(id => id.UserId == userId)
-                .ToList();
-
-            return orderList;
+                .ToListAsync();
         }
     }
 }
