@@ -8,13 +8,14 @@ namespace E_Commerce.Data.Repositories
     {
 
         public readonly E_commenceContext _context;
+        public readonly ProductoRepository _productoRepository;
 
-
-        public ListaDeseosRepository(E_commenceContext context) : base(context)
+        public ListaDeseosRepository(E_commenceContext context, ProductoRepository productoRepository) : base(context)
         {
             _context = context;
-
+            _productoRepository = productoRepository;
         }
-    }
 
+        
+    }
 }

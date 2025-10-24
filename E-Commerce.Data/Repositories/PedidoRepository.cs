@@ -1,6 +1,7 @@
 ﻿using E_Commerce.Data.Context;
 using E_Commerce.Data.Entities;
 using E_Commerce.Data.Interfaces.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Data.Repositories
 {
@@ -13,6 +14,17 @@ namespace E_Commerce.Data.Repositories
             {
                 _context = context;
             }
+        }
+
+        public List<Pedido> GetOrderListByUserId(string userId)
+        {
+            var orderList = _context.Pedidos
+                .Include(dp => dp.Detalles)
+                .Include(de => de.DireccionEnvio)
+                .Where(id => id.UserId == userId)
+                .ToList();
+
+            return orderList;
         }
     }
 }

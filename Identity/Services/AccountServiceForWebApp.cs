@@ -2,7 +2,6 @@
 using E_Commerce.Data.Interfaces;
 using Identity.Entities;
 using Microsoft.AspNetCore.Identity;
-using Org.BouncyCastle.Crypto;
 
 namespace Identity.Services
 {
@@ -19,7 +18,7 @@ namespace Identity.Services
             _emailService = emailService;
         }
 
-        // Authenticate a userf 
+        // Authenticate a user
 
         public async Task<LoginResponseDto> AuthenticateAsync(LoginDto loginDto)
         {
