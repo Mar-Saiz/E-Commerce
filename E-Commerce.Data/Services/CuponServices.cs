@@ -42,7 +42,5 @@ namespace E_Commerce.Data.Services
 
             return totalCarrito - descuento;
         }
-
-
     }
 }
