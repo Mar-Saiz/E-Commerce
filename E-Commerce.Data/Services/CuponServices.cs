@@ -21,12 +21,11 @@ namespace E_Commerce.Data.Services
         // Maria Abreu 2024-0003
 
         // validar cupon.
-
         public async Task<OperationResult<CuponDto>> ValidarCuponAsync(CuponDto cuponDto)
         {
             OperationResult<CuponDto> result = new();
 
-            var cupon = await _categoriaRepository.GetEntityByIdAsync(cuponDto.Id);
+            var cupon = await _CuponRepository.GetEntityByIdAsync(cuponDto.Id);
 
             if (cupon == null || cupon.FechaExpiracion < DateTime.Now)
             {
@@ -41,7 +40,6 @@ namespace E_Commerce.Data.Services
         }
 
         // Buscar cupon
-
         public async Task<OperationResult<CuponDto>> GetCuponByCodeAsync(string code)
         {
             OperationResult<CuponDto> result = new();
@@ -68,9 +66,6 @@ namespace E_Commerce.Data.Services
             result.Success = true;
 
             return result;
-
         }
-
-
     }
 }
