@@ -5,6 +5,6 @@ namespace E_Commerce.Data.Interfaces.Services
 {
     public interface IListaDeseosServices : IBaseServices<ListaDeseos, ListaDeseosDto>
     {
-
+        public Task<List<ListaDeseosDto>> GetWishListByUserId(string userId);
     }
 }
