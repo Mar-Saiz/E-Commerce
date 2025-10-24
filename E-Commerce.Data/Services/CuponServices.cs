@@ -16,6 +16,8 @@ namespace E_Commerce.Data.Services
             _categoriaRepository = cuponRepository;
         }
 
+        // Maria Abreu 2024-0003
+
         // validar cupon.
 
         public async Task<CuponDto> ValidarCuponAsync(CuponDto cuponDto)
@@ -36,6 +38,7 @@ namespace E_Commerce.Data.Services
             var cupon = await ValidarCuponAsync(cuponDto);
             if (cupon == null)
             {
+                Console.WriteLine("Cupón inválido o expirado.");
                 return 0;
             }
             decimal descuento = (totalCarrito * cupon.Descuento);
