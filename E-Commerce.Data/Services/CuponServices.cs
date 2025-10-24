@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using E_Commerce.Data.Core;
 using E_Commerce.Data.DTOs.EntititesDto;
 using E_Commerce.Data.Entities;
 using E_Commerce.Data.Interfaces.Repository;
@@ -20,30 +21,42 @@ namespace E_Commerce.Data.Services
 
         // validar cupon.
 
-        public async Task<CuponDto> ValidarCuponAsync(CuponDto cuponDto)
+        public async Task<OperationResult<CuponDto>> ValidarCuponAsync(CuponDto cuponDto)
         {
+            OperationResult<CuponDto> result = new();
+
             var cupon = await _categoriaRepository.GetEntityByIdAsync(cuponDto.Id);
+
             if (cupon == null || cupon.FechaExpiracion < DateTime.Now)
             {
-                return null; // Cupón inválido o expirado
+                result.Success = false;
+                result.Message = "Cupón inválido o expirado.";
+                return result;
             }
-            return _mapper.Map<CuponDto>(cupon);
+
+            result.Result = _mapper.Map<CuponDto>(cupon);
+            result.Success = true;
+            return result;
         }
 
 
-        // aplicar cupon al carrito
+        // Buscar cupon
 
-        public async Task<decimal> AplicarCuponAlCarritoAsync(CuponDto cuponDto, decimal totalCarrito)
+        public async Task<OperationResult<CuponDto>> GetCuponByCodeAsync(string code)
         {
-            var cupon = await ValidarCuponAsync(cuponDto);
+            OperationResult<CuponDto> result = new();
+            var cupon = await _categoriaRepository.(code);
             if (cupon == null)
             {
-                Console.WriteLine("Cupón inválido o expirado.");
-                return 0;
+                result.Success = false;
+                result.Message = "Cupón no encontrado.";
+                return result;
             }
-            decimal descuento = (totalCarrito * cupon.Descuento);
-
-            return totalCarrito - descuento;
+            result.Result = _mapper.Map<CuponDto>(cupon);
+            result.Success = true;
+            return result;
         }
+
+
     }
 }
