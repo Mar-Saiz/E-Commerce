@@ -1,5 +1,4 @@
-﻿using E_Commerce.Data.DTOs;
-using E_Commerce.Data.DTOs.Email;
+﻿using E_Commerce.Data.DTOs.Email;
 using E_Commerce.Data.DTOs.User;
 using E_Commerce.Data.Interfaces;
 using Identity.Entities;
@@ -43,11 +42,12 @@ namespace Identity.Services
 
             AppUser user = new AppUser()
             {
-                Name = saveDto.Name,
+                FirstName = saveDto.Name,
                 LastName = saveDto.LastName,
                 Email = saveDto.Email,
                 EmailConfirmed = false,
-                IsActive = true,
+                Status = true,
+                PasswordHash = saveDto.Password,
             };
 
             var result = await _userManager.CreateAsync(user, saveDto.Password);
@@ -79,7 +79,7 @@ namespace Identity.Services
 
                 response.Id = user.Id;
                 response.Email = user.Email ?? "";
-                response.Name = user.Name;
+                response.Name = user.FirstName;
                 response.LastName = user.LastName;
                 response.IsVerified = user.EmailConfirmed;
                 response.Roles = rolesList.ToList();
@@ -124,11 +124,11 @@ namespace Identity.Services
                 return response;
             }
 
-            user.Name = saveDto.Name;
+            user.FirstName = saveDto.Name;
             user.LastName = saveDto.LastName;
             user.EmailConfirmed = user.EmailConfirmed && user.Email == saveDto.Email;
             user.Email = saveDto.Email;
-            user.IsActive = saveDto.IsActive;
+            user.Status = saveDto.IsActive;
 
             if (!string.IsNullOrWhiteSpace(saveDto.Password) && isNotcreated)
             {
@@ -180,7 +180,7 @@ namespace Identity.Services
 
                 response.Id = user.Id;
                 response.Email = user.Email ?? "";
-                response.Name = user.Name;
+                response.Name = user.FirstName;
                 response.LastName = user.LastName;
                 response.IsVerified = user.EmailConfirmed;
                 response.Roles = updatedRolesList.ToList();
@@ -295,10 +295,10 @@ namespace Identity.Services
                 Id = user.Id,
                 Email = user.Email ?? "",
                 LastName = user.LastName,
-                Name = user.Name,
+                Name = user.FirstName,
                 isVerified = user.EmailConfirmed,
                 Role = rolesList.FirstOrDefault() ?? "",
-                IsActive = user.IsActive,
+                IsActive = user.Status,
             };
 
             return userDto;
@@ -325,10 +325,10 @@ namespace Identity.Services
                         Id = item.Id,
                         Email = item.Email ?? "",
                         LastName = item.LastName,
-                        Name = item.Name,
+                        Name = item.FirstName,
                         isVerified = item.EmailConfirmed,
                         Role = actualRole ?? "",
-                        IsActive = item.IsActive,
+                        IsActive = item.Status,
                     });
                 }
             }
@@ -370,9 +370,9 @@ namespace Identity.Services
                 }
 
                 // Marcar usuario como activo
-                if (!user.IsActive)
+                if (!user.Status)
                 {
-                    user.IsActive = true;
+                    user.Status = true;
                     await _userManager.UpdateAsync(user);
                 }
 
@@ -401,7 +401,7 @@ namespace Identity.Services
                 return response;
             }
 
-            user.IsActive = status;
+            user.Status = status;
             var result = await _userManager.UpdateAsync(user);
 
             if (!result.Succeeded)

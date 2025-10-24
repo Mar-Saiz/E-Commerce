@@ -2,7 +2,6 @@
 using E_Commerce.Data.Interfaces;
 using Identity.Entities;
 using Microsoft.AspNetCore.Identity;
-using Org.BouncyCastle.Crypto;
 
 namespace Identity.Services
 {
@@ -19,7 +18,7 @@ namespace Identity.Services
             _emailService = emailService;
         }
 
-        // Authenticate a userf 
+        // Authenticate a user
 
         public async Task<LoginResponseDto> AuthenticateAsync(LoginDto loginDto)
         {
@@ -70,7 +69,7 @@ namespace Identity.Services
 
             response.Id = user.Id;
             response.Email = user.Email ?? "";
-            response.Name = user.Name;
+            response.Name = user.FirstName;
             response.LastName = user.LastName;
             response.IsVerified = user.EmailConfirmed;
             response.Roles = rolesList.ToList();
@@ -97,11 +96,11 @@ namespace Identity.Services
             return new UserDto
             {
                 Id = user.Id,
-                Name = user.Name ?? "Unknown",
+                Name = user.FirstName ?? "Unknown",
                 LastName = user.LastName ?? "Unknown",
                 Email = user.Email ?? "Unknown",
                 Role = roles.FirstOrDefault() ?? "Unknown",
-                IsActive = user.IsActive,
+                IsActive = user.Status,
                 isVerified = user.EmailConfirmed,
             };
         }
