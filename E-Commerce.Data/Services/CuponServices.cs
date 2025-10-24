@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using E_Commerce.Data.Core;
 using E_Commerce.Data.DTOs.EntititesDto;
 using E_Commerce.Data.Entities;
 using E_Commerce.Data.Interfaces.Repository;
@@ -8,42 +9,63 @@ namespace E_Commerce.Data.Services
 {
     public class CuponServices : BaseServices<Cupon, CuponDto>, ICuponServices
     {
-        public readonly ICuponRepository _categoriaRepository;
+        public readonly ICuponRepository _CuponRepository;
         public readonly IMapper _mapper;
+
         public CuponServices(ICuponRepository cuponRepository, IMapper mapper) : base(mapper, cuponRepository)
         {
             _mapper = mapper;
-            _categoriaRepository = cuponRepository;
+            _CuponRepository = cuponRepository;
         }
 
         // Maria Abreu 2024-0003
 
         // validar cupon.
-
-        public async Task<CuponDto> ValidarCuponAsync(CuponDto cuponDto)
+        public async Task<OperationResult<CuponDto>> ValidarCuponAsync(CuponDto cuponDto)
         {
-            var cupon = await _categoriaRepository.GetEntityByIdAsync(cuponDto.Id);
+            OperationResult<CuponDto> result = new();
+
+            var cupon = await _CuponRepository.GetEntityByIdAsync(cuponDto.Id);
+
             if (cupon == null || cupon.FechaExpiracion < DateTime.Now)
             {
-                return null; // Cupón inválido o expirado
+                result.Success = false;
+                result.Message = "Cupón inválido o expirado.";
+                return result;
             }
-            return _mapper.Map<CuponDto>(cupon);
+
+            result.Result = _mapper.Map<CuponDto>(cupon);
+            result.Success = true;
+            return result;
         }
 
-
-        // aplicar cupon al carrito
-
-        public async Task<decimal> AplicarCuponAlCarritoAsync(CuponDto cuponDto, decimal totalCarrito)
+        // Buscar cupon
+        public async Task<OperationResult<CuponDto>> GetCuponByCodeAsync(string code)
         {
-            var cupon = await ValidarCuponAsync(cuponDto);
-            if (cupon == null)
-            {
-                Console.WriteLine("Cupón inválido o expirado.");
-                return 0;
-            }
-            decimal descuento = (totalCarrito * cupon.Descuento);
+            OperationResult<CuponDto> result = new();
 
-            return totalCarrito - descuento;
+            var cupon = await _CuponRepository.GetCuponByCodeAsync(code);
+
+            if(cupon == null)
+            {
+                result.Success = false;
+                result.Message = "Cupón no encontrado.";
+                return result;
+            }
+
+            var cuponDto = _mapper.Map<CuponDto>(cupon);  
+
+            if(cuponDto == null)
+            {
+                result.Success = false;
+                result.Message = "Error al obtener el cupón.";
+                return result;
+            }
+
+            result.Result = cuponDto;
+            result.Success = true;
+
+            return result;
         }
     }
 }

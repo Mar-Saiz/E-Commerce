@@ -1,10 +1,12 @@
-﻿using E_Commerce.Data.DTOs.EntititesDto;
+﻿using E_Commerce.Data.Core;
+using E_Commerce.Data.DTOs.EntititesDto;
 using E_Commerce.Data.Entities;
 
 namespace E_Commerce.Data.Interfaces.Services
 {
     public interface ICuponServices : IBaseServices<Cupon, CuponDto>
     {
-
+        Task<OperationResult<CuponDto>> ValidarCuponAsync(CuponDto cuponDto);
+        Task<OperationResult<CuponDto>> GetCuponByCodeAsync(string code);
     }
 }

@@ -14,6 +14,19 @@ namespace E_Commerce.Data.Repositories
             _context = context;
 
         }
-    
+
+        public async Task<Cupon> GetCuponByCodeAsync(string code)
+        {
+            var result = _context.Cupones.FirstOrDefault(c => c.Codigo == code);
+
+            if (result == null)
+            {
+                Console.WriteLine("Cupón no encontrado.");
+                return null;
+            }
+
+            return result;
+        }
+
     }
 }
