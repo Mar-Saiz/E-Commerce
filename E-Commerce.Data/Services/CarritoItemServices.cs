@@ -13,10 +13,12 @@ namespace E_Commerce.Data.Services
         public readonly IMapper _mapper;
         public readonly IProductoServices _productoServices;
         public readonly ICuponServices _cuponServices;
-        public CarritoItemServices(ICarritoItemRepository carrito, IMapper mapper) : base(mapper, carrito)
+        public CarritoItemServices(ICarritoItemRepository carrito, IMapper mapper, IProductoServices productoServices, ICuponServices cuponServices) : base(mapper, carrito)
         {
             _mapper = mapper;
             _carritoItemServices = carrito;
+            _productoServices = productoServices;
+            _cuponServices = cuponServices;
         }
 
         //2024-0003 Maria Abreu
