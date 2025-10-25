@@ -22,12 +22,36 @@ namespace E_Commerce.Data.Services
         }
 
         //2024-0003 Maria Abreu
+        private bool ValidateCarritoItem(CarritoItemDto carritoItemDto)
+        {
+            if (carritoItemDto.Cantidad < 0)
+            {
+                return false;
+            }
+            else if (string.IsNullOrEmpty(carritoItemDto.UserId))
+            {
+                return false;
+            }
+            else if (carritoItemDto.Subtotal < 0)
+            {
+                return false;
+            }
 
-        public async Task<OperationResult<CarritoItemDto>> CreateCartAsync(CarritoItemDto AppUserId)
+            return true;
+        }
+
+        public async Task<OperationResult<CarritoItemDto>> CreateCartAsync(CarritoItemDto CarritoDto)
         {
             OperationResult<CarritoItemDto> result = new();
 
-            var entitie = _mapper.Map<CarritoItem>(AppUserId);
+            if(ValidateCarritoItem(CarritoDto) == false)
+            {
+                result.Success = false;
+                result.Message = "Datos del carrito inválidos.";
+                return result;
+            }
+
+            var entitie = _mapper.Map<CarritoItem>(CarritoDto);
 
             var Carrito = _mapper.Map<CarritoItemDto>(await _carritoItemServices.SaveEntityAsync(entitie));
 
@@ -44,18 +68,39 @@ namespace E_Commerce.Data.Services
             return result;
 
         }
-        public async Task<OperationResult<CarritoItemDto>> AddItemToCarritoAsync(int ProductID, int cantidad, CarritoItemDto Carrito)
+        public async Task<OperationResult<CarritoItemDto>> AddItemToCarritoAsync(int ProductID, int cantidad, CarritoItemDto CarritoDto)
         {
             OperationResult<CarritoItemDto> result = new();
+
+            if (ValidateCarritoItem(CarritoDto) == false)
+            {
+                result.Success = false;
+                result.Message = "Datos del carrito inválidos.";
+                return result;
+            }
+
+            if(ProductID <= 0 || cantidad <= 0)
+            {
+                result.Success = false;
+                result.Message = "ID de producto o cantidad inválidos.";
+                return result;
+            }
+
+            if (CarritoDto.ProductoId != ProductID)
+            {
+                result.Success = false;
+                result.Message = "El producto no coincide con el producto del carrito.";
+                return result;
+            }
 
             CarritoItem NewCarrito = new CarritoItem
             {
                 ProductoId = ProductID,
                 Cantidad = cantidad,
-                UserId = Carrito.UserId
+                UserId = CarritoDto.UserId
             };
 
-            var CarritoConItem = _mapper.Map<CarritoItemDto>(await _carritoItemServices.UpdateEntityAsync(Carrito.Id, NewCarrito));
+            var CarritoConItem = _mapper.Map<CarritoItemDto>(await _carritoItemServices.UpdateEntityAsync(CarritoDto.Id, NewCarrito));
 
             if (CarritoConItem == null)
             {
@@ -99,6 +144,11 @@ namespace E_Commerce.Data.Services
         {
             decimal total = 0;
 
+            if (ValidateCarritoItem(Carrito) == false)
+            {
+                return 0;
+            }
+
 
             if (Carrito.Subtotal == 0)
             {
@@ -119,6 +169,11 @@ namespace E_Commerce.Data.Services
         public async Task<decimal> CalculateTotal(CarritoItemDto Carrito, CuponDto cuponDto)
         {
             decimal total = 0;
+
+            if (ValidateCarritoItem(Carrito) == false)
+            {
+                return 0;
+            }
 
             var cupon = await _cuponServices.ValidarCuponAsync(cuponDto);
 
