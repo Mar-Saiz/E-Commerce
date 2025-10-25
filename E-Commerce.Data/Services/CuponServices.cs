@@ -21,10 +21,34 @@ namespace E_Commerce.Data.Services
 
         // Maria Abreu 2024-0003
 
+        private bool ValidateCupon(CuponDto cuponDto)
+        {
+            if (string.IsNullOrWhiteSpace(cuponDto.Codigo))
+            {
+                return false;
+            }
+            else if (cuponDto.Descuento < 0 || cuponDto.Descuento > 100)
+            {
+                return false;
+            }
+            else if (cuponDto.FechaExpiracion < DateTime.Now)
+            {
+                return false;
+            }
+            return true;
+        }
+
         // validar cupon.
         public async Task<OperationResult<CuponDto>> ValidarCuponAsync(CuponDto cuponDto)
         {
             OperationResult<CuponDto> result = new();
+
+            if (!ValidateCupon(cuponDto))
+            {
+                result.Success = false;
+                result.Message = "Cupón inválido.";
+                return result;
+            }
 
             var cupon = await _CuponRepository.GetEntityByIdAsync(cuponDto.Id);
 
@@ -44,6 +68,13 @@ namespace E_Commerce.Data.Services
         public async Task<OperationResult<CuponDto>> GetCuponByCodeAsync(string code)
         {
             OperationResult<CuponDto> result = new();
+
+           if(string.IsNullOrWhiteSpace(code))
+            {
+                result.Success = false;
+                result.Message = "Código de cupón inválido.";
+                return result;
+            }
 
             var cupon = await _CuponRepository.GetCuponByCodeAsync(code);
 

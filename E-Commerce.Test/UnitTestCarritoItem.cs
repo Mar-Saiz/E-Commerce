@@ -50,7 +50,7 @@ namespace E_Commerce.Test
 
         [Fact]
 
-        public void CreateCartAsync_ShouldCreateCart()
+        public void CreateCartAsync_ShouldCreateCart_WhenCartIsNull()
         {
             // Arrange
             var carritoItemServices = new CarritoItemServices(carrito, mapper, productoServices, cuponServices);
@@ -63,6 +63,19 @@ namespace E_Commerce.Test
             // Assert
             Assert.True(result.Success);
             Assert.NotNull(result.Result);
+            Assert.Equal("test-user-123", result.Result.UserId);
+        }
+
+        public void CreateCartAsync_ShouldNotCreateCart_WhenCartNull()
+        {
+            // Arrange
+            var carritoItemServices = new CarritoItemServices(carrito, mapper, productoServices, cuponServices);
+            CarritoItemDto newCart = null;
+            // Act
+            var result = carritoItemServices.CreateCartAsync(newCart).Result;
+            // Assert
+            Assert.False(result.Success);
+            Assert.Null(result.Result);
             Assert.Equal("test-user-123", result.Result.UserId);
         }
 
