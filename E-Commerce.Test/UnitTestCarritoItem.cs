@@ -28,7 +28,8 @@ namespace E_Commerce.Test
             // Initialize mapper to avoid null reference
             var config = new MapperConfiguration(cfg => {
 
-                cfg.AddProfile(new E_Commerce.Data.Mapper.Automapper.MapperEntityToServices());
+                cfg.AddProfile(
+                    new E_Commerce.Data.Mapper.Automapper.MapperEntityToServices());
 
             });
             this.mapper = config.CreateMapper();
@@ -179,12 +180,13 @@ namespace E_Commerce.Test
             Assert.Equal("test-user-123", result.Result.UserId);
             Assert.Equal(1, result.Result.ProductoId);
             Assert.Equal(1, result.Result.Cantidad);
-        } //problemas con el base repository y el id de la entidad
+        } 
+        //problemas con el base repository y el id de la entidad
 
         //calcular el total del carrito con cupon
 
         [Fact]
-        public async Task CalculateTotalCarritoAsync_ShouldCalculateTotal_WhenDataValid()
+        public async Task CalculateTotalCarritoAsync_ShouldCalculateTotal_WhenDataValid() // error matematico al calcular el descuento.
         {
             // Arrange
             var carritoItemServices = new CarritoItemServices(carrito, mapper, productoServices, cuponServices);
@@ -216,13 +218,13 @@ namespace E_Commerce.Test
             });
 
             //buscar cupon
-            var cupon = await cuponServices.ValidarCuponAsync(cuponDto);
+            var cupon = await cuponServices.GetCuponByCodeAsync(cuponDto.Codigo);
 
             // Act
-            var result = await carritoItemServices.CalculateTotal(newCartItem.Result, ); //cupon
+            var result = await carritoItemServices.CalculateTotal(newCartItem.Result,cupon.Result ); //cupon 
             // Assert
-            Assert.True(result.Success);
-            Assert.Equal(180, result.Result); // 200 - 10% = 180
+          
+            Assert.Equal(180, result); // 200 - 10% = 180
         }
     }
 }
