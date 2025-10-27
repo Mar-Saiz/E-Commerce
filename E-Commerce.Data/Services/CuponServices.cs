@@ -20,7 +20,6 @@ namespace E_Commerce.Data.Services
 
 
         // Maria Abreu 2024-0003
-
         private bool ValidateCupon(CuponDto cuponDto)
         {
             if (string.IsNullOrWhiteSpace(cuponDto.Codigo))
