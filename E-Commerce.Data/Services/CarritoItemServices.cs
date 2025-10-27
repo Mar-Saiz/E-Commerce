@@ -32,10 +32,6 @@ namespace E_Commerce.Data.Services
             {
                 return false;
             }
-            else if (carritoItemDto.Subtotal < 0)
-            {
-                return false;
-            }
 
             return true;
         }
@@ -79,19 +75,13 @@ namespace E_Commerce.Data.Services
                 return result;
             }
 
-            if(ProductID <= 0 || cantidad <= 0)
+            if(ProductID < 0 || cantidad < 0)
             {
                 result.Success = false;
                 result.Message = "ID de producto o cantidad inválidos.";
                 return result;
             }
 
-            if (CarritoDto.ProductoId != ProductID)
-            {
-                result.Success = false;
-                result.Message = "El producto no coincide con el producto del carrito.";
-                return result;
-            }
 
             CarritoItem NewCarrito = new CarritoItem
             {
