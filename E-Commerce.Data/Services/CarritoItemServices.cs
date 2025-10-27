@@ -13,7 +13,13 @@ namespace E_Commerce.Data.Services
         public readonly IMapper _mapper;
         public readonly IProductoServices _productoServices;
         public readonly ICuponServices _cuponServices;
-        public CarritoItemServices(ICarritoItemRepository carrito, IMapper mapper, IProductoServices productoServices, ICuponServices cuponServices) : base(mapper, carrito)
+
+        public CarritoItemServices(
+            ICarritoItemRepository carrito, 
+            IMapper mapper, 
+            IProductoServices productoServices, 
+            ICuponServices cuponServices) 
+            : base(mapper, carrito)
         {
             _mapper = mapper;
             _carritoItemServices = carrito;
@@ -35,8 +41,8 @@ namespace E_Commerce.Data.Services
 
             return true;
         }
-
-        public async Task<OperationResult<CarritoItemDto>> CreateCartAsync(CarritoItemDto CarritoDto)
+        public async Task<OperationResult<CarritoItemDto>> CreateCartAsync(
+            CarritoItemDto CarritoDto)
         {
             OperationResult<CarritoItemDto> result = new();
 
@@ -64,7 +70,8 @@ namespace E_Commerce.Data.Services
             return result;
 
         }
-        public async Task<OperationResult<CarritoItemDto>> AddItemToCarritoAsync(int ProductID, int cantidad, CarritoItemDto CarritoDto)
+        public async Task<OperationResult<CarritoItemDto>> AddItemToCarritoAsync(
+            int ProductID, int cantidad, CarritoItemDto CarritoDto)
         {
             OperationResult<CarritoItemDto> result = new();
 
@@ -104,7 +111,8 @@ namespace E_Commerce.Data.Services
 
             return result;
         }
-        public async Task<OperationResult<CarritoItemDto>> RemoveItemToCarritoAsync(int ProductID, int cantidad, CarritoItemDto Carrito)
+        public async Task<OperationResult<CarritoItemDto>> RemoveItemToCarritoAsync(
+            int ProductID, int cantidad, CarritoItemDto Carrito)
         {
             OperationResult<CarritoItemDto> result = new();
 
@@ -130,7 +138,8 @@ namespace E_Commerce.Data.Services
 
             return result;
         }
-        public async Task<decimal> CalculateTotal(CarritoItemDto Carrito)
+        public async Task<decimal> CalculateTotal(
+            CarritoItemDto Carrito)
         {
             decimal total = 0;
 
@@ -156,7 +165,8 @@ namespace E_Commerce.Data.Services
 
             return total = Carrito.Subtotal * itbis;
         }
-        public async Task<decimal> CalculateTotal(CarritoItemDto Carrito, CuponDto cuponDto)
+        public async Task<decimal> CalculateTotal(
+            CarritoItemDto Carrito, CuponDto cuponDto)
         {
             decimal total = 0;
 
