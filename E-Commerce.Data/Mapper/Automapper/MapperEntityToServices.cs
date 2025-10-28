@@ -23,6 +23,7 @@ namespace E_Commerce.Data.Mapper.Automapper
             CreateMap(typeof(Pedido), typeof(PedidoDto)).ReverseMap();
             CreateMap(typeof(Producto), typeof(ProductoDto)).ReverseMap();
             CreateMap(typeof(Promocion), typeof(PromocionDto)).ReverseMap();
+            CreateMap(typeof(Pagos), typeof(PagosDto)).ReverseMap(); //Addeded mapping for Pagos
             #endregion
         }
     }

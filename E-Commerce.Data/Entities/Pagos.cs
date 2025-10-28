@@ -2,7 +2,7 @@
 
 namespace E_Commerce.Data.Entities
 {
-    public class Pagos : BaseEntityDto<int>
+    public class Pagos : BaseEntity<int>
     {
         public override int Id { get; set; }
         public  string UserId { get; set; }
