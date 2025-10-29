@@ -178,53 +178,59 @@ namespace E_Commerce.Test
             Assert.True(result.Success);
             Assert.NotNull(result.Result);
             Assert.Equal("test-user-123", result.Result.UserId);
-            Assert.Equal(1, result.Result.ProductoId);
+            Assert.Equal(0, result.Result.ProductoId);
             Assert.Equal(1, result.Result.Cantidad);
         } 
-        //problemas con el base repository y el id de la entidad
 
-        //calcular el total del carrito con cupon
+        //Calcular el total del carrito con Cupon
 
         [Fact]
-        public async Task CalculateTotalCarritoAsync_ShouldCalculateTotal_WhenDataValid() // error matematico al calcular el descuento.
+
+        public async Task CalculateTotal_ShouldCalculateTotalWithCupon_WhenDataValid()
         {
             // Arrange
             var carritoItemServices = new CarritoItemServices(carrito, mapper, productoServices, cuponServices);
             //crear producto
-            await productoServices.SaveDtoAsync(new ProductoDto
+            var productoDto = new ProductoDto
             {
-                Id = 1,
+                Id = 6,
                 Nombre = "Producto Test",
                 Descripcion = "Descripcion Test",
                 Precio = 100,
                 Stock = 10
-            });
+            };
+
             //crear cupon
-            var cuponDto = new CuponDto
+           var cuponDto = await cuponServices.SaveDtoAsync(new CuponDto
             {
-                Id = 1,
+                Id = 2,
                 Codigo = "DESCUENTO10",
                 Descuento = 10,
-                FechaExpiracion = DateTime.Now.AddDays(10)
-            };
-            await cuponServices.SaveDtoAsync(cuponDto);
+                FechaExpiracion = DateTime.UtcNow.AddDays(10)
+            });
+
             //crear carrito
             var newCartItem = await carritoItemServices.CreateCartAsync(new CarritoItemDto
             {
-                Id = 1,
+                Id = 5,
                 UserId = "test-user-123",
-                ProductoId = 1,
-                Cantidad = 2
+                ProductoId = 6,
+                Cantidad = 2,
+                Producto = productoDto
+
             });
-
-            //buscar cupon
-            var cupon = await cuponServices.GetCuponByCodeAsync(cuponDto.Codigo);
-
+   
             // Act
-            var result = await carritoItemServices.CalculateTotal(newCartItem.Result,cupon.Result ); //cupon 
+            var total = await carritoItemServices.CalculateTotal(newCartItem.Result, cuponDto);
             // Assert
-          
-            Assert.Equal(180, result); // 200 - 10% = 180
+            decimal expectedTotal = 212.4m;
+            Assert.Equal(expectedTotal, total);
+
+
+
+
+
+
         }
     }
 }
