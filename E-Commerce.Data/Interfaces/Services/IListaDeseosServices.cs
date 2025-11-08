@@ -1,0 +1,11 @@
+﻿using E_Commerce.Data.Core;
+using E_Commerce.Data.DTOs.EntititesDto;
+using E_Commerce.Data.Entities;
+
+namespace E_Commerce.Data.Interfaces.Services
+{
+    public interface IListaDeseosServices : IBaseServices<ListaDeseos, ListaDeseosDto>
+    {
+        public Task<OperationResult<ListaDeseosDto>> GetWishListByUserId(string userId);
+    }
+}
