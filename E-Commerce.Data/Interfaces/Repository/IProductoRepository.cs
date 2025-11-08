@@ -15,5 +15,8 @@ namespace E_Commerce.Data.Interfaces.Repository
         Task<OperationResult<List<Producto>>> GetProductByCategory();
         Task<OperationResult<List<Producto>>> GetProductByBrand(string brand);
         Task<OperationResult<List<Producto>>> GetNewAsync(int cantidad);
+
+        OperationResult<Producto> AddProduct(Producto? producto);
+        OperationResult<Producto> UpdateProduct(Producto? producto);
     }
 }
