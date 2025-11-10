@@ -304,7 +304,7 @@ namespace E_Commerce.Data.Repositories
                     .ToListAsync();
 
                 result.Success = true;
-                result.Message = $"Se encontraron  productos de la marca {brand}";
+                result.Message = $"La marca del producto ya esta registrado.";
                 result.Result = productos;
                 return result;
                
