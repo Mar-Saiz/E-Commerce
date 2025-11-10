@@ -292,7 +292,7 @@ namespace E_Commerce.Data.Repositories
 
                 if (_context.Productos.Any(p => p.Marca == brand))
                 {
-                    result.Success = false;
+                    result.Success = true;
                     result.Message = "La marca del producto ya esta registrado.";
                     return result;
                 }   

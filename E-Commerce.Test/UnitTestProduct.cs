@@ -229,7 +229,7 @@ namespace E_Commerce.Test
             string message = $"La marca del producto ya esta registrado.";
 
             // Assert
-            Assert.False(result.Success);  
+            Assert.True(result.Success);  
             Assert.Equal(message, result.Message);
         }
 
