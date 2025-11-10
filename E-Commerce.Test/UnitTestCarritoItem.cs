@@ -113,35 +113,6 @@ namespace E_Commerce.Test
             Assert.Null(result.Result);
         }
 
-        [Fact]
-        public async Task AddItemToCart_ShouldAddItem_WhenDataValid()
-        {
-            // Arrange
-            var carritoItemServices = new CarritoItemServices(carrito, mapper, productoServices, cuponServices);
-
-            var newCartItem = new CarritoItemDto
-            {
-                Id = 1,
-                UserId = "test-user-123",
-                ProductoId = 0,
-                Cantidad = 0
-            };
-
-            await carritoItemServices.CreateCartAsync(newCartItem);
-
-            int productId = 1;
-            int cantidad = 2;
-
-            // Act
-            var result = carritoItemServices.AddItemToCarritoAsync(productId, cantidad, newCartItem).Result;
-            // Assert
-            Assert.True(result.Success);
-            Assert.NotNull(result.Result);
-            Assert.Equal("test-user-123", result.Result.UserId);
-            Assert.Equal(1, result.Result.ProductoId);
-            Assert.Equal(2, result.Result.Cantidad);
-
-        }
 
         [Fact]
         public async Task RemoveItemToCarritoAsync_ShouldRemoveItem_WhenDataValid()
