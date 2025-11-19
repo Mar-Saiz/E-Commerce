@@ -2,6 +2,7 @@
 using E_Commerce.Data.Repositories.Dependencies;
 using E_Commerce.Data.Services.ServicesDependecy;
 using Identity.Configuration;
+using E_commence.shared;
 
 namespace E_Commerce.Web
 {
@@ -17,6 +18,8 @@ namespace E_Commerce.Web
 
             builder.Services.AddApplicationLayer();
             builder.Services.AddPersistencesLayerIoc(builder.Configuration);
+            builder.Services.AddSharedLayerIoc(builder.Configuration);
+
 
             var app = builder.Build();
 
