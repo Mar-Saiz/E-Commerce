@@ -16,5 +16,7 @@ namespace E_Commerce.Data.Repositories
             _context = context;
 
         }
+
+
     }
 }

@@ -1,4 +1,7 @@
 ﻿using E_Commerce.Data.Context;
+using E_Commerce.Data.Interfaces.Repository;
+using E_Commerce.Data.Interfaces.Services;
+using E_Commerce.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +32,22 @@ namespace E_Commerce.Data.Repositories.Dependencies
                     optionsLifetime: ServiceLifetime.Scoped
                  );
             }
+
+            #region Repository IOC
+            service.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            service.AddTransient<ICarritoItemRepository, CarritoItemRepository>();
+            service.AddTransient<ICategoriaRepository, CategoriaRepository>();
+            service.AddTransient<ICuponRepository, CuponRepository>();
+            service.AddTransient<IDetallePedidoRepository, DetallePedidoRepository>();
+            service.AddTransient<IDireccionEnvioRepository, DireccionEnvioRepository>();
+            service.AddTransient<IListaDeseosRepository, ListaDeseosRepository>();
+            service.AddTransient<IPedidoRepository, PedidoRepository>();
+            service.AddTransient<IProductoRepository, ProductoRepository>();
+            service.AddTransient<IPromocionRepository, PromocionRepository>();
+            service.AddTransient<IPagosRepository, PagosRepository>();
+
+            #endregion
+
             #endregion
         }
     }

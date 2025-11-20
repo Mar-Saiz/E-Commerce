@@ -26,6 +26,7 @@ namespace E_Commerce.Data.Context
         public DbSet<ListaDeseos> ListasDeseos { get; set; }
         public DbSet<Cupon> Cupones { get; set; }
         public DbSet<Promocion> Promociones { get; set; }
+        public DbSet<Pagos> Pagos { get; set; }
 
 
     }

@@ -292,7 +292,7 @@ namespace E_Commerce.Data.Repositories
 
                 if (_context.Productos.Any(p => p.Marca == brand))
                 {
-                    result.Success = false;
+                    result.Success = true;
                     result.Message = "La marca del producto ya esta registrado.";
                     return result;
                 }   
@@ -304,7 +304,7 @@ namespace E_Commerce.Data.Repositories
                     .ToListAsync();
 
                 result.Success = true;
-                result.Message = $"Se encontraron  productos de la marca {brand}";
+                result.Message = $"La marca del producto ya esta registrado.";
                 result.Result = productos;
                 return result;
                
