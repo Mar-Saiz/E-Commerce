@@ -1,0 +1,66 @@
+﻿@model List<DireccionEnvioViewModel>
+@{
+    ViewData["Title"] = "Tus Direcciones index";
+}
+
+<div class="container mt-4">
+    <div class="row mb-2">
+        <div class="col text-end">
+            <a asp-action="Crear" asp-controller="DireccionEnvio" class="btn btn-success btn-lg">
+                <i class="fa fa-plus me-2"></i>Agregar nueva Direccion
+            </a>
+        </div>
+    </div>
+    <div class="card shadow rounded">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Lista de Direcciones</h4>
+        </div>
+        <div class="table">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered align-middle text-center" id="tblCountry">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Pais</th>
+                                <th>Ciudad</th>
+                                <th>Calle</th>
+                                <th>CodigoPostal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(m => item.Id)</td>
+                                    <td>@Html.DisplayFor(m => item.Pais)</td>
+                                    <td>@Html.DisplayFor(m => item.Ciudad)</td>
+                                    <td>@Html.DisplayFor(m => item.Calle)</td>
+                                    <td>@Html.DisplayFor(m => item.CodigoPostal)</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-warning me-1" asp-action="Editar" asp-route-id="@item.Id">
+                                            <i class="fa fa-pencil"></i> Editar
+                                        </a>
+                                        <a class="btn btn-sm btn-info text-white me-1" asp-action="Detalles" asp-route-id="@item.Id">
+                                            <i class="fa fa-info-circle"></i> Detalles
+                                        </a>
+                                        <a class="btn btn-sm btn-danger" asp-action="Borrar" asp-route-id="@item.Id">
+                                            <i class="fa fa-trash"></i> Borrar
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center" role="alert">
+                    No hay registros disponibles.
+                </div>
+            }
+        </div>
+    </div>
+</div>
