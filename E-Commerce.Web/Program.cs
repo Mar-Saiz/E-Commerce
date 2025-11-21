@@ -1,3 +1,9 @@
+
+using E_Commerce.Data.Repositories.Dependencies;
+using E_Commerce.Data.Services.ServicesDependecy;
+using Identity.Configuration;
+using E_commence.shared;
+
 namespace E_Commerce.Web
 {
     public class Program
@@ -8,6 +14,12 @@ namespace E_Commerce.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddIdentityIocForWebApp(builder.Configuration);
+
+            builder.Services.AddApplicationLayer();
+            builder.Services.AddPersistencesLayerIoc(builder.Configuration);
+            builder.Services.AddSharedLayerIoc(builder.Configuration);
+
 
             var app = builder.Build();
 
