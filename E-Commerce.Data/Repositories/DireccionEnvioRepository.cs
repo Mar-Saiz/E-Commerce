@@ -1,10 +1,10 @@
 ﻿using E_Commerce.Data.Context;
+using E_Commerce.Data.Entities;
 using E_Commerce.Data.Interfaces.Repository;
-using E_Commerce.Data.ViewModels;
 
 namespace E_Commerce.Data.Repositories
 {
-    public class DireccionEnvioRepository : BaseRepository<DireccionEnvioViewModel>, IDireccionEnvioRepository
+    public class DireccionEnvioRepository : BaseRepository<DireccionEnvio>, IDireccionEnvioRepository
     {
 
         public readonly E_commenceContext _context;

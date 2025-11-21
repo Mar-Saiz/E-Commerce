@@ -2,7 +2,6 @@
 using E_Commerce.Data.DTOs.EntititesDto;
 using E_Commerce.Data.Entities;
 using E_Commerce.Data.Interfaces.Base;
-using E_Commerce.Data.ViewModels;
 
 namespace E_Commerce.Data.Mapper.Automapper
 {
@@ -19,7 +18,7 @@ namespace E_Commerce.Data.Mapper.Automapper
             CreateMap(typeof(Categoria), typeof(CategoriaDto)).ReverseMap();
             CreateMap(typeof(Cupon), typeof(CuponDto)).ReverseMap();
             CreateMap(typeof(DetallePedido), typeof(DetallePedidoDto)).ReverseMap();
-            CreateMap(typeof(DireccionEnvioViewModel), typeof(DireccionEnvioDto)).ReverseMap();
+            CreateMap(typeof(DireccionEnvio), typeof(DireccionEnvioDto)).ReverseMap();
             CreateMap(typeof(ListaDeseos), typeof(ListaDeseosDto)).ReverseMap();
             CreateMap(typeof(Pedido), typeof(PedidoDto)).ReverseMap();
             CreateMap(typeof(Producto), typeof(ProductoDto)).ReverseMap();
