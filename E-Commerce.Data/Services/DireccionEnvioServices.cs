@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using E_Commerce.Data.DTOs.EntititesDto;
-using E_Commerce.Data.Entities;
 using E_Commerce.Data.Interfaces.Repository;
 using E_Commerce.Data.Interfaces.Services;
+using E_Commerce.Data.ViewModels;
 
 namespace E_Commerce.Data.Services
 {
-    public class DireccionEnvioServices : BaseServices<DireccionEnvio, DireccionEnvioDto>, IDireccionEnvioServices
+    public class DireccionEnvioServices : BaseServices<DireccionEnvioViewModel, DireccionEnvioDto>, IDireccionEnvioServices
     {
         public readonly IDireccionEnvioRepository _direccionEnvioRepository;
         public readonly IMapper _mapper;

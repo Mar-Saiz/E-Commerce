@@ -1,8 +1,8 @@
-﻿using E_Commerce.Data.Entities;
+﻿using E_Commerce.Data.ViewModels;
 
 namespace E_Commerce.Data.Interfaces.Repository
 {
-    public interface IDireccionEnvioRepository : IBaseRepository<DireccionEnvio>
+    public interface IDireccionEnvioRepository : IBaseRepository<DireccionEnvioViewModel>
     {
 
     }

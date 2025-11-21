@@ -1,4 +1,5 @@
 ﻿using E_Commerce.Data.Entities;
+using E_Commerce.Data.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Data.Context
@@ -22,7 +23,7 @@ namespace E_Commerce.Data.Context
         public DbSet<CarritoItem> CarritoItems { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<DetallePedido> DetallesPedidos { get; set; }
-        public DbSet<DireccionEnvio> DireccionesEnvio { get; set; }
+        public DbSet<DireccionEnvioViewModel> DireccionesEnvio { get; set; }
         public DbSet<ListaDeseos> ListasDeseos { get; set; }
         public DbSet<Cupon> Cupones { get; set; }
         public DbSet<Promocion> Promociones { get; set; }
