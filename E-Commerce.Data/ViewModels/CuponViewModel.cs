@@ -1,6 +1,7 @@
-﻿namespace E_Commerce.Data.DTOs.EntititesDto
+﻿
+namespace E_Commerce.Data.ViewModels
 {
-    public class CuponDto : BaseEntityDto<int>
+    public class CuponViewModel: IBaseViewModel<int>
     {
         public override int Id { get; set; }
         public string Codigo { get; set; }
