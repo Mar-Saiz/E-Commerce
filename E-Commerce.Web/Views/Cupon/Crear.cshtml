@@ -1,0 +1,49 @@
+﻿@model SaveCuponViewModel
+@{
+    ViewData["Title"] = "Crear cupon";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow rounded">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fa fa-flag me-2"></i>Agregar Cupon</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Crear" method="post">
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Codigo" class="form-label">Codigo</label>
+                            <input asp-for="Codigo" class="form-control" placeholder="Ingresa el Codigo del cupon" />
+                            <span asp-validation-for="Codigo" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Descuento" class="form-label">Descuento</label>
+                            <input asp-for="Descuento" class="form-control" placeholder="" />
+                            <span asp-validation-for="Descuento" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="FechaExpiracion" class="form-label">FechaExpiracion</label>
+                            <input asp-for="FechaExpiracion" class="form-control" placeholder="" />
+                            <span asp-validation-for="FechaExpiracion" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <a asp-controller="Cupon" asp-action="Index" class="btn btn-secondary">
+                                <i class="fa fa-arrow-left me-1"></i>Volver Atras
+                            </a>
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-plus me-1"></i>Agregar cupon
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
