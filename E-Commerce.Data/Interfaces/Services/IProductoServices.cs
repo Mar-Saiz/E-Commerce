@@ -16,6 +16,5 @@ namespace E_Commerce.Data.Interfaces.Services
         Task<OperationResult<List<Producto>>> ObtenerProductosPorMarcaAsync(string marca);
         Task<OperationResult<List<Producto>>> GetAllProductAsnyc();
         Task<OperationResult<List<Producto>>> SearchProductAsync(string terminoBusqueda);
-
     }
 }

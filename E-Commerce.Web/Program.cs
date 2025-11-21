@@ -20,7 +20,6 @@ namespace E_Commerce.Web
             builder.Services.AddPersistencesLayerIoc(builder.Configuration);
             builder.Services.AddSharedLayerIoc(builder.Configuration);
 
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
