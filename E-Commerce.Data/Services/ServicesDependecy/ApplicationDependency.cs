@@ -21,6 +21,7 @@ namespace E_Commerce.Data.Services.ServicesDependecy
             service.AddTransient<IPedidoServices, PedidoServices>();
             service.AddTransient<IProductoServices, ProductoServices>();
             service.AddTransient<IPromocionServices, PromocionServices>();
+            service.AddTransient<IPagosServices, PagosServices>();
             #endregion
 
         }
