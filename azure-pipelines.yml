@@ -1,0 +1,33 @@
+trigger:
+  branches:
+    include:
+      - DEV
+      - QA
+      - master
+
+stages:
+- stage: Build
+  displayName: 'Build and Test'
+  jobs:
+  - job: Build
+    displayName: 'Build and Unit Test'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore NuGet packages'
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build project'
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+        arguments: '--configuration Release'
+    - task: DotNetCoreCLI@2
+      displayName: 'Run unit tests'
+      inputs:
+        command: 'test'
+        projects: '**/*Test/*.csproj'
+        arguments: '--configuration Release --no-build --collect:"XPlat Code Coverage"'
