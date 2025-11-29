@@ -1,0 +1,49 @@
+﻿@model IEnumerable<PromocionViewModel>
+@{
+    ViewData["Title"] = "Promocion index";
+}
+
+
+<div class="row">
+    <div class="text-center">
+        <h2 class="display-4">Promocion</h2>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col text-end">
+        <a asp-action="Crear" asp-controller="Promocion" class="btn btn-success btn-lg">
+            <i class="fa fa-plus me-2"></i>Agregar nueva promocion
+        </a>
+    </div>
+</div>
+
+<div class="row mt-2">
+    @if (Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-12 col-md-3">
+                <div class="card">
+                    <img src="@item.ImagenUrl" class="card-img-top responsive-image" alt="@item.Titulo">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Titulo</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Description: @item.Descripcion</li>
+                    </ul>
+                    <div class="card-body">
+                        <a class="btn btn-warning float-end" asp-controller="Promocion" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i> Edit</a>
+                        <a class="btn btn-danger float-end me-2" asp-controller="Promocion" asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i> Delete</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="text-center">
+            <h5 class="display-4">No hay Promociones</h5>
+        </div>
+    }
+</div>

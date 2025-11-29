@@ -1,0 +1,55 @@
+﻿@model DireccionEnvioViewModel
+@{
+    ViewData["Title"] = "Crear Dirección";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow rounded">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fa fa-flag me-2"></i>Agregar Direccion de Envio</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Crear" asp-controller="DireccionEnvio" method="post">
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Calle" class="form-label">Calle</label>
+                            <input asp-for="Calle" class="form-control" placeholder="Ingresa la calle" />
+                            <span asp-validation-for="Calle" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Ciudad" class="form-label">Ciudad</label>
+                            <input asp-for="Ciudad" class="form-control" placeholder="Santo Domingo" />
+                            <span asp-validation-for="Ciudad" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Pais" class="form-label">Pais</label>
+                            <input asp-for="Pais" class="form-control" placeholder="Ingresa la calle" />
+                            <span asp-validation-for="Pais" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CodigoPostal" class="form-label">Codigo Postal</label>
+                            <input asp-for="CodigoPostal" class="form-control" placeholder="30100" />
+                            <span asp-validation-for="CodigoPostal" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-3">
+                            <a asp-controller="DireccionEnvio" asp-action="Index" class="btn btn-secondary">
+                                <i class="fa fa-arrow-left me-1"></i>Volver Atrás
+                            </a>
+
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-plus me-1"></i>Agregar Dirección
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

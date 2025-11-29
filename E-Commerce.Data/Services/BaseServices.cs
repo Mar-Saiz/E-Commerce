@@ -1,0 +1,173 @@
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using E_Commerce.Data.Interfaces.Repository;
+using E_Commerce.Data.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
+namespace E_Commerce.Data.Services
+{
+    public class BaseServices<TEntity, Tdto> : IBaseServices<TEntity, Tdto>
+    where TEntity : class
+    where Tdto : class
+    {
+        private readonly IMapper _mapper;
+        private readonly IBaseRepository<TEntity> _repository;
+
+        public BaseServices(IMapper mapper, IBaseRepository<TEntity> _baseRepository)
+        {
+            _mapper = mapper;
+            _repository = _baseRepository;
+        }
+
+        public async Task<bool> DeleteHardDtoAsync(int dtoDelete)
+        {
+            try
+            {
+                await _repository.DeleteAsync(dtoDelete);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<List<Tdto>> GetAllListDto()
+        {
+            try
+            {
+                var listEntity = await _repository.GetAllListAsync();
+                var listDto = _mapper.Map<List<Tdto>>(listEntity);
+                return listDto;
+            }
+            catch (Exception)
+            {
+                return [];
+            }
+        }
+
+        public async Task<Tdto?> GetDtoById(int id)
+        {
+            try
+            {
+                var entity = await _repository.GetEntityByIdAsync(id);
+                if (entity == null)
+                {
+                    return null;
+                }
+
+                Tdto? dto = _mapper.Map<Tdto>(entity);
+                return dto;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<Tdto>> GetWithInclude(List<string> properties)
+        {
+            try
+            {
+                var query = _repository.GetAllQueryWithInclude(properties);
+
+                var result = await query.ProjectTo<Tdto>(_mapper.ConfigurationProvider).ToListAsync();
+
+                return result;
+            }
+            catch
+            {
+                return [];
+            }
+        }
+
+
+        public virtual async Task<Tdto?> SaveDtoAsync(Tdto dtoSave)
+        {
+            try
+            {
+                TEntity entity = _mapper.Map<TEntity>(dtoSave);
+                TEntity? returnEntity = await _repository.SaveEntityAsync(entity);
+                if (returnEntity == null)
+                {
+                    return null;
+                }
+
+                return _mapper.Map<Tdto>(returnEntity);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public virtual async Task<List<Tdto>?> SaveRange(List<Tdto> dtosToSave)
+        {
+            try
+            {
+                List<TEntity> entity = _mapper.Map<List<TEntity>>(dtosToSave);
+                List<TEntity>? returnEntity = await _repository.AddRangeAsync(entity);
+                if (returnEntity == null)
+                {
+                    return null;
+                }
+
+                return _mapper.Map<List<Tdto>>(returnEntity);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<Tdto?> UpdateDtoAsync(Tdto dtoUpdate, int id)
+        {
+            try
+            {
+                TEntity entity = _mapper.Map<TEntity>(dtoUpdate);
+                TEntity? returnEntity = await _repository.UpdateEntityAsync(id, entity);
+                if (returnEntity == null)
+                {
+                    return null;
+                }
+
+                return _mapper.Map<Tdto>(returnEntity);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public async Task<List<Tdto>> GetAllFilteredAllAsync(Expression<Func<TEntity, bool>>? predicate = null,
+                                                             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                             List<string>? includes = null)
+        {
+            try
+            {
+                IQueryable<TEntity> query = BuildQuery(includes);
+
+                if (predicate != null)
+                    query = query.Where(predicate);
+
+                if (orderBy != null)
+                    query = orderBy(query);
+
+                return await query
+                    .ProjectTo<Tdto>(_mapper.ConfigurationProvider)
+                    .ToListAsync();
+            }
+            catch
+            {
+                return [];
+            }
+        }
+        protected virtual IQueryable<TEntity> BuildQuery(List<string>? includes = null)
+        {
+            var props = (includes != null && includes.Count > 0) ? includes : new List<string>();
+            return _repository.GetAllQueryWithInclude(props);
+        }
+
+    }
+}
+
+  
